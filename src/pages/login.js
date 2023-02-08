@@ -22,6 +22,8 @@ export const Login = () => {
       navigate("/");
     }).then(err => {
       setSubmitting(false);
+    }).catch(e => {
+      console.log('err', e);
     })
   }
 

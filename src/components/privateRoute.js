@@ -4,6 +4,7 @@ import { Layout } from "./layout";
 
 const PrivateRoute = ({ Component }) => {
   const token = localStorage.getItem("token") || "";
+  console.log('fwd', token);
   return token ? <Layout><Component /></Layout> : <Navigate to="/" />
 };
 

@@ -10,6 +10,7 @@ const defaultHeaders = {
   "Cache-Control": "no-cache",
   Pragma: "no-cache",
   Expires: "0",
+  "ngrok-skip-browser-warning":"any"
 };
 
 export const defaultAxios = axios.create({});
@@ -31,7 +32,7 @@ export function apiClient({
       headers: {
         ...(noHeaders ? {} : defaultHeaders),
         ...headers,
-        ...(isAuth ? { Authorization: localStorage.getItem('token') } : {})
+        ...(isAuth ? { Authorization: 'Bearer ' + localStorage.getItem('token') } : {})
       },
       data,
       ...rest,
@@ -42,7 +43,7 @@ export function apiClient({
       })
       .catch((err) => {
         if (err.response && err.response.data.message) {
-          reject(err.response.data.error);
+          reject(err.response);
           if (err.response.data.statusCode === 401) {
             localStorage.removeItem("token");
           } else {

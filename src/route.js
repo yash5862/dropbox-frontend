@@ -19,7 +19,7 @@ const AppRoutes = () => {
           <Route path="/login" element={<AuthRoute Component={Login} />} />      
           <Route path="/signup" element={<AuthRoute Component={Signup} />} />
 
-          <Route path='dashboard' element={<PrivateRoute Component={Dashboard}/>}/>
+          <Route path='/dashboard' element={<PrivateRoute Component={Dashboard}/>}/>
         </Routes>
   );
 };
