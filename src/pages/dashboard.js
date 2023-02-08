@@ -5,11 +5,6 @@ import { apiClient } from "../common/general";
 import { AppSettings } from "../appSettings";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import thumbDoc from "../assets/images/thumbnail-doc.png";
-import thumbExl from "../assets/images/thumbnail-exl.png";
-import thumbPdf from "../assets/images/thumbnail-pdf.png";
-import thumbImg from "../assets/images/thumbnail-img.png";
-import thumbWord from "../assets/images/thumbnail-word.png";
 
 export const Dashboard = () => {
   const [filesData, setFilesData] = useState([]);
@@ -29,6 +24,9 @@ export const Dashboard = () => {
     },
     excel: {
       mimes: [ 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ],
+      image: 'https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.spreadsheet'
+    },
+    other: {
       image: 'https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.spreadsheet'
     }
   }
@@ -50,6 +48,7 @@ export const Dashboard = () => {
   const getFileIconByMime = useMemo(() => (mime) => {
     console.log('Object.keys[fileTypes]', Object.keys(fileTypes));
     const fileType = Object.keys(fileTypes).find((type) => {
+      if (type == 'other') return '';
       return fileTypes[type].mimes.includes(mime);
     }) || 'other'
 
