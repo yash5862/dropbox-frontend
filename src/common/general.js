@@ -1,7 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-toast.configure();
 
 const option = {
   autoClose: 1000
@@ -21,6 +20,7 @@ export function apiClient({
   method = "POST",
   headers = {},
   noHeaders,
+  isAuth = true,
   isToast,
   ...rest
 }) {
@@ -31,6 +31,7 @@ export function apiClient({
       headers: {
         ...(noHeaders ? {} : defaultHeaders),
         ...headers,
+        ...(isAuth ? { Authorization: localStorage.getItem('token') } : {})
       },
       data,
       ...rest,
