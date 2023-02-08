@@ -5,13 +5,12 @@ import { apiClient } from "../common/general";
 import { AppSettings } from "../appSettings";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import thumbDoc from "../assets/images/thumbnail-doc.png";
-import thumbExl from "../assets/images/thumbnail-exl.png";
-import thumbPdf from "../assets/images/thumbnail-pdf.png";
-import thumbImg from "../assets/images/thumbnail-img.png";
-import thumbWord from "../assets/images/thumbnail-word.png";
-import thumbOther from "../assets/images/thumbnail-other.png";
 import other from "../assets/images/other.png";
+import docs from "../assets/images/google-docs.png";
+import pdf from "../assets/images/pdf.png";
+import sheets from "../assets/images/sheets.png";
+// import word from "../assets/images/word.png";
+import img from "../assets/images/img.png";
 
 export const Dashboard = () => {
   const [filesData, setFilesData] = useState([]);
@@ -19,22 +18,22 @@ export const Dashboard = () => {
   const fileTypes = {
     word: { 
       mimes: ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
-      image: 'https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.document'
+      image: docs
     },
     image: {
       mimes: ['image/gif', 'image/jpeg', 'image/png'],
-      image: 'https://drive-thirdparty.googleusercontent.com/16/type/image/png'
+      image: img
     },
     pdf: {
       mimes: [ 'application/pdf' ],
-      image: 'https://drive-thirdparty.googleusercontent.com/16/type/application/pdf'
+      image: pdf
     },
     excel: {
       mimes: [ 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ],
-      image: 'https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.spreadsheet'
+      image: sheets
     },
     other: {
-      image: 'https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.spreadsheet'
+      image: other
     }
   }
 
