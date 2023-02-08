@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import Dropzone, { useDropzone } from "react-dropzone";
+import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "react-bootstrap";
 import "../index.css";
 import { apiClient } from "../common/general";
@@ -15,9 +14,24 @@ import thumbWord from "../assets/images/thumbnail-word.png";
 export const Dashboard = () => {
   const [filesData, setFilesData] = useState([]);
 
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    disabled: true,
-  });
+  const fileTypes = {
+    word: { 
+      mimes: ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
+      image: 'https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.document'
+    },
+    image: {
+      mimes: ['image/gif', 'image/jpeg', 'image/png'],
+      image: 'https://drive-thirdparty.googleusercontent.com/16/type/image/png'
+    },
+    pdf: {
+      mimes: [ 'application/pdf' ],
+      image: 'https://drive-thirdparty.googleusercontent.com/16/type/application/pdf'
+    },
+    excel: {
+      mimes: [ 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ],
+      image: 'https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.spreadsheet'
+    }
+  }
 
   const getUserFiles = () => {
     apiClient({
@@ -33,13 +47,14 @@ export const Dashboard = () => {
     getUserFiles();
   }, []);
 
-  const files = acceptedFiles.map((file) => (
-    <li key={file.name}>
-      {file.name} - {file.size} bytes
-    </li>
-  ));
+  const getFileIconByMime = useMemo(() => (mime) => {
+    console.log('Object.keys[fileTypes]', Object.keys(fileTypes));
+    const fileType = Object.keys(fileTypes).find((type) => {
+      return fileTypes[type].mimes.includes(mime);
+    }) || 'other'
 
-  const uploadFiles = () => {};
+    return fileTypes[fileType]?.image || '';
+  }, [filesData])
 
   console.log(filesData);
 
@@ -48,159 +63,36 @@ export const Dashboard = () => {
       <div className="dashbordBody">
         <div className="header"></div>
         <div className="row m-5">
-          {/* {filesData.map((file, index) => {
+          {filesData.map((file, index) => {
             return (
               <div className="col-xl-2 col-lg-2 col-md-4 col-sm-2 col-12">
                 <div className="boxFileMain">
-                  <div className="boxFile"></div>
+                  <div className="boxFile">
+                    <img src={getFileIconByMime(file.mime)} className="img-fluid"></img>
+                  </div>
                   <div className="FileName d-flex">
                     <img
-                      src="https://cdn-icons-png.flaticon.com/512/2965/2965335.png"
+                      src={getFileIconByMime(file.mime)}
                       className="icon"
                       tooltip={file.originalName}
                     ></img>
-                    <p>
-                      <strong tooltip={file.originalName}>{ file.originalName }</strong>
-                    </p>
+                    <OverlayTrigger
+                      placement="bottom"
+                      overlay={
+                        <Tooltip id="tooltip-bottom" style={{position: 'fixed'}}>
+                          {file.originalName}
+                        </Tooltip>
+                      }
+                    >
+                      <p>{file.originalName}</p>
+                    </OverlayTrigger>
                   </div>
                 </div>
               </div>
             );
-          })} */}
-          <div className="col-xl-2 col-lg-2 col-md-4 col-sm-2 col-12">
-            <div className="boxFileMain">
-              <div className="boxFile">
-                <img src={thumbDoc} className="img-fluid"></img>
-              </div>
-              <div className="FileName d-flex">
-                <img
-                  src="https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.document"
-                  className="icon"
-                  tooltip="Hello"
-                ></img>
-                <OverlayTrigger
-                  placement="bottom"
-                  overlay={
-                    <Tooltip id="tooltip-bottom" style={{position: 'fixed'}}>
-                      Hello Hello Hello Hello Hello
-                    </Tooltip>
-                  }
-                >
-                  <p>Hello Hello Hello Hello Hello</p>
-                </OverlayTrigger>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-2 col-lg-2 col-md-4 col-sm-2 col-12">
-            <div className="boxFileMain">
-              <div className="boxFile">
-                <img src={thumbExl} className="img-fluid"></img>
-              </div>
-              <div className="FileName d-flex">
-                <img
-                  src="https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.spreadsheet"
-                  className="icon"
-                  tooltip="Hello"
-                ></img>
-                <OverlayTrigger
-                  placement="bottom"
-                  overlay={
-                    <Tooltip id="tooltip-bottom" style={{position: 'fixed'}}>
-                      Hello Hello Hello Hello Hello
-                    </Tooltip>
-                  }
-                >
-                  <p>Hello Hello Hello Hello Hello</p>
-                </OverlayTrigger>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-2 col-lg-2 col-md-4 col-sm-2 col-12">
-            <div className="boxFileMain">
-              <div className="boxFile">
-                <img src={thumbImg} className="img-fluid"></img>
-              </div>
-              <div className="FileName d-flex">
-                <img
-                  src="https://drive-thirdparty.googleusercontent.com/16/type/image/png"
-                  className="icon"
-                  tooltip="Hello"
-                ></img>
-                <OverlayTrigger
-                  placement="bottom"
-                  overlay={
-                    <Tooltip id="tooltip-bottom" style={{position: 'fixed'}}>
-                      Hello Hello Hello Hello Hello
-                    </Tooltip>
-                  }
-                >
-                  <p>Hello Hello Hello Hello Hello</p>
-                </OverlayTrigger>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-2 col-lg-2 col-md-4 col-sm-2 col-12">
-            <div className="boxFileMain">
-              <div className="boxFile">
-                <img src={thumbPdf} className="img-fluid"></img>
-              </div>
-              <div className="FileName d-flex">
-                <img
-                  src="	https://drive-thirdparty.googleusercontent.com/16/type/application/pdf"
-                  className="icon"
-                  tooltip="Hello"
-                ></img>
-                <OverlayTrigger
-                  placement="bottom"
-                  overlay={
-                    <Tooltip id="tooltip-bottom" style={{position: 'fixed'}}>
-                      Hello Hello Hello Hello Hello
-                    </Tooltip>
-                  }
-                >
-                  <p>Hello Hello Hello Hello Hello</p>
-                </OverlayTrigger>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-2 col-lg-2 col-md-4 col-sm-2 col-12">
-            <div className="boxFileMain">
-              <div className="boxFile">
-                <img src={thumbWord} className="img-fluid"></img>
-              </div>
-              <div className="FileName d-flex">
-                <img
-                  src="https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                  className="icon"
-                  tooltip="Hello"
-                ></img>
-                <OverlayTrigger
-                  placement="bottom"
-                  overlay={
-                    <Tooltip id="tooltip-bottom" style={{position: 'fixed'}}>
-                      Hello Hello Hello Hello Hello
-                    </Tooltip>
-                  }
-                >
-                  <p>Hello Hello Hello Hello Hello</p>
-                </OverlayTrigger>
-              </div>
-            </div>
-          </div>
+          })}
         </div>
       </div>
-
-      {/* <section>
-          <div {...getRootProps({ className: "dropzone disabled" })}>
-          <input {...getInputProps()} />
-          <p>Drag 'n' drop some files here, or click to select files</p>
-        </div>
-        <aside>
-          <h4>Files</h4>
-          <ul>{files}</ul>
-        </aside>
-      <Button onClick={uploadFiles}>Upload</Button>
-          </section> */}
     </>
   );
 };
