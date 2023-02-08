@@ -5,6 +5,13 @@ import { apiClient } from "../common/general";
 import { AppSettings } from "../appSettings";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
+import thumbDoc from "../assets/images/thumbnail-doc.png";
+import thumbExl from "../assets/images/thumbnail-exl.png";
+import thumbPdf from "../assets/images/thumbnail-pdf.png";
+import thumbImg from "../assets/images/thumbnail-img.png";
+import thumbWord from "../assets/images/thumbnail-word.png";
+import thumbOther from "../assets/images/thumbnail-other.png";
+import other from "../assets/images/other.png";
 
 export const Dashboard = () => {
   const [filesData, setFilesData] = useState([]);
@@ -67,7 +74,7 @@ export const Dashboard = () => {
               <div className="col-xl-2 col-lg-2 col-md-4 col-sm-2 col-12">
                 <div className="boxFileMain">
                   <div className="boxFile">
-                    <img src={getFileIconByMime(file.mime)} className="img-fluid"></img>
+                    <img src={getFileIconByMime(file.mime)} className="img-fluid thumbnail"></img>
                   </div>
                   <div className="FileName d-flex">
                     <img
