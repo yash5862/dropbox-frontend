@@ -16,26 +16,32 @@ export const Dashboard = () => {
   const [filesData, setFilesData] = useState([]);
 
   const fileTypes = {
-    word: { 
-      mimes: ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
-      image: docs
+    word: {
+      mimes: [
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      ],
+      image: docs,
     },
     image: {
-      mimes: ['image/gif', 'image/jpeg', 'image/png'],
-      image: img
+      mimes: ["image/gif", "image/jpeg", "image/png"],
+      image: img,
     },
     pdf: {
-      mimes: [ 'application/pdf' ],
-      image: pdf
+      mimes: ["application/pdf"],
+      image: pdf,
     },
     excel: {
-      mimes: [ 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ],
-      image: sheets
+      mimes: [
+        "application/vnd.ms-excel",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      ],
+      image: sheets,
     },
     other: {
-      image: other
-    }
-  }
+      image: other,
+    },
+  };
 
   const getUserFiles = () => {
     apiClient({
@@ -51,15 +57,19 @@ export const Dashboard = () => {
     getUserFiles();
   }, []);
 
-  const getFileIconByMime = useMemo(() => (mime) => {
-    console.log('Object.keys[fileTypes]', Object.keys(fileTypes));
-    const fileType = Object.keys(fileTypes).find((type) => {
-      if (type == 'other') return '';
-      return fileTypes[type].mimes.includes(mime);
-    }) || 'other'
+  const getFileIconByMime = useMemo(
+    () => (mime) => {
+      console.log("Object.keys[fileTypes]", Object.keys(fileTypes));
+      const fileType =
+        Object.keys(fileTypes).find((type) => {
+          if (type == "other") return "";
+          return fileTypes[type].mimes.includes(mime);
+        }) || "other";
 
-    return fileTypes[fileType]?.image || '';
-  }, [filesData])
+      return fileTypes[fileType]?.image || "";
+    },
+    [filesData]
+  );
 
   console.log(filesData);
 
@@ -68,12 +78,25 @@ export const Dashboard = () => {
       <div className="dashbordBody">
         <div className="header"></div>
         <div className="row m-5">
+          <div className="col-12 ">
+            <div className="d-flex justify-content-end mb-3">
+              <div className="d-flex selectAll">
+                <input type="checkbox" className="checkAll" />
+                <p className="m-0">Select All</p>
+              </div>
+              <p className="m-0">Delet All</p>
+            </div>
+          </div>
           {filesData.map((file, index) => {
             return (
               <div className="col-xl-2 col-lg-2 col-md-4 col-sm-2 col-12">
                 <div className="boxFileMain">
+                  <input type="checkbox" className="check" />
                   <div className="boxFile">
-                    <img src={getFileIconByMime(file.mime)} className="img-fluid thumbnail"></img>
+                    <img
+                      src={getFileIconByMime(file.mime)}
+                      className="img-fluid thumbnail"
+                    ></img>
                   </div>
                   <div className="FileName d-flex">
                     <img
@@ -84,7 +107,10 @@ export const Dashboard = () => {
                     <OverlayTrigger
                       placement="bottom"
                       overlay={
-                        <Tooltip id="tooltip-bottom" style={{position: 'fixed'}}>
+                        <Tooltip
+                          id="tooltip-bottom"
+                          style={{ position: "fixed" }}
+                        >
                           {file.originalName}
                         </Tooltip>
                       }

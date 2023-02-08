@@ -1,100 +1,102 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #F1F5F8;
+  background-color: #f1f5f8;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-.mainBox{
+.mainBox {
   box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
   padding: 30px;
   border-radius: 20px;
 }
-.mainForm{
+.mainForm {
   margin-top: 100px;
 }
-.mainBox h1{
+.mainBox h1 {
   font-size: 22px;
   font-weight: 700;
 }
 .sideBar {
   width: 15%;
   height: 100vh;
-  background-color: #FDFDFE;
+  background-color: #fdfdfe;
   padding: 20px;
   position: relative;
 }
-.logo h1{
-font-size: 28px;
-font-weight: 700;
-color: #010102;
-margin-bottom: 25px;
+.logo h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #010102;
+  margin-bottom: 25px;
 }
-.logo h1 span{
-font-size: 28px;
-font-weight: 500;
-color: #0061FF;
-margin-bottom: 25px;
+.logo h1 span {
+  font-size: 28px;
+  font-weight: 500;
+  color: #0061ff;
+  margin-bottom: 25px;
 }
-.dashbordBody{
+.dashbordBody {
   width: 85%;
   height: 100vh;
 }
-.header{
+.header {
   height: 80px;
   width: 100%;
   box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
   z-index: 99;
 }
-.boxFileMain{
+.boxFileMain {
   width: 100%;
   background-color: #fff;
   border-radius: 10px;
   overflow: hidden;
+  position: relative;
   margin-bottom: 20px;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
-.boxFileMain p{
+.boxFileMain p {
   font-size: 16px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.boxFile{
+.boxFile {
   width: 100%;
   height: 216px;
   object-fit: contain;
   justify-content: center;
   display: flex;
 }
-.FileName{
+.FileName {
   padding: 16px;
   position: relative;
   background-color: #fff;
 }
-.boxFileMain:hover .FileName{
-  background-color: #F0F0F0;
+.boxFileMain:hover .FileName {
+  background-color: #f0f0f0;
 }
-.FileName p{
+.FileName p {
   margin: 0;
   align-self: center;
   font-size: 13px;
   margin-left: 15px;
   font-weight: 500;
 }
-.icon{
+.icon {
   width: 16px;
   height: 16px;
- align-self: center;
+  align-self: center;
 }
-.logout{
+.logout {
   width: -webkit-fill-available;
   position: absolute;
   bottom: 20px;
@@ -103,47 +105,64 @@ margin-bottom: 25px;
   height: 40px;
 }
 
-
-
-
 .sidebarOption {
   margin: 0;
   padding: 0;
   margin-top: 50px;
   list-style: none;
 }
-.sidebarOption li{
+.sidebarOption li {
   margin: 10px 0;
-  padding: 5px 20px;  
+  padding: 5px 20px;
   position: relative;
-
 }
-.sidebarOption li .active{
-margin:  0;
-font-size: 18px;
-font-weight: 500;
-color: #0061FF;
+.sidebarOption li .active {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #0061ff;
 }
-.sidebarOption li p{
-margin:  0;
-font-size: 18px;
-font-weight: 500;
-color: #97979B;
+.sidebarOption li p {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #97979b;
 }
-.sidebarOption li .active::before{
+.sidebarOption li .active::before {
   content: " ";
   position: absolute;
   left: 0;
-  top:0;
+  top: 0;
   width: 3px;
   height: 100%;
-  background-color: #0061FF;
+  background-color: #0061ff;
   border-radius: 100px;
 }
-.thumbnail{
+.thumbnail {
   height: 150px;
   width: auto;
   display: flex;
   align-items: center;
   margin: auto;
+}
+
+.check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  height: 15px;
+  width: 15px;
+  display: none;
+}
+.checkAll {
+  align-self: center;
+  height: 15px;
+  width: 15px;
+  margin-right: 10px;
+}
+.boxFileMain:hover .check {
+  display: block;
+}
+.selectAll {
+  margin-right: 20px;
 }
