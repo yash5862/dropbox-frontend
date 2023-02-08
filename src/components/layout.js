@@ -1,14 +1,13 @@
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-export const Layout = ({children}) => {
+export const Layout = ({ children }) => {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
-
-    const logout = () => {
-        localStorage.removeItem('token');
-        navigate('/');
-    }
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
 
   return (
     <>
@@ -16,9 +15,19 @@ export const Layout = ({children}) => {
         <div className="d-flex">
           <div className="sideBar">
             <div className="logo">
-              <h1>DropBox</h1>
+              <h1>Drop<span>Box</span></h1>
             </div>
-            <Button className="logout" onClick={logout}>Log out</Button>
+            <ul className="sidebarOption">
+              <li>
+                <p className="active">Dashboard</p>
+              </li>
+              <li>
+                <p>Computers</p>
+              </li>
+            </ul>
+            <Button className="logout" onClick={logout}>
+              Log out
+            </Button>
           </div>
           {children}
         </div>

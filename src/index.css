@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #F1F5F8;
 }
 
 code {
@@ -23,21 +24,27 @@ code {
   font-size: 22px;
   font-weight: 700;
 }
-.sideBar{
-  width: 20%;
+.sideBar {
+  width: 15%;
   height: 100vh;
-  background-color: red;
+  background-color: #FDFDFE;
   padding: 20px;
   position: relative;
 }
 .logo h1{
 font-size: 28px;
 font-weight: 700;
-color: White;
-margin: 0;
+color: #010102;
+margin-bottom: 25px;
+}
+.logo h1 span{
+font-size: 28px;
+font-weight: 500;
+color: #0061FF;
+margin-bottom: 25px;
 }
 .dashbordBody{
-  width: 80%;
+  width: 85%;
   height: 100vh;
 }
 .header{
@@ -48,28 +55,42 @@ margin: 0;
 }
 .boxFileMain{
   width: 100%;
-  background-color: #f5f5f5;
+  background-color: #fff;
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 20px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+.boxFileMain p{
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .boxFile{
   width: 100%;
-  height: 250px;
+  height: 216px;
+  object-fit: contain;
 }
 .FileName{
-  padding: 10px;
-  background-color: #ededed;
+  padding: 16px;
+  position: relative;
+  background-color: #fff;
+}
+.boxFileMain:hover .FileName{
+  background-color: #F0F0F0;
 }
 .FileName p{
   margin: 0;
   align-self: center;
-  font-size: 18px;
-  margin-left: 5px;
+  font-size: 13px;
+  margin-left: 15px;
+  font-weight: 500;
 }
 .icon{
-  width: 30px;
-  height: auto;
+  width: 16px;
+  height: 16px;
+ align-self: center;
 }
 .logout{
   width: -webkit-fill-available;
@@ -78,4 +99,42 @@ margin: 0;
   right: 20px;
   left: 20px;
   height: 40px;
+}
+
+
+
+
+.sidebarOption {
+  margin: 0;
+  padding: 0;
+  margin-top: 50px;
+  list-style: none;
+}
+.sidebarOption li{
+  margin: 10px 0;
+  padding: 5px 20px;  
+  position: relative;
+
+}
+.sidebarOption li .active{
+margin:  0;
+font-size: 18px;
+font-weight: 500;
+color: #0061FF;
+}
+.sidebarOption li p{
+margin:  0;
+font-size: 18px;
+font-weight: 500;
+color: #97979B;
+}
+.sidebarOption li .active::before{
+  content: " ";
+  position: absolute;
+  left: 0;
+  top:0;
+  width: 3px;
+  height: 100%;
+  background-color: #0061FF;
+  border-radius: 100px;
 }
