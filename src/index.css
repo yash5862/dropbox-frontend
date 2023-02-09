@@ -82,7 +82,8 @@ code {
   position: relative;
   background-color: #fff;
 }
-.boxFileMain:hover, .boxFileMain.selected .FileName {
+.boxFileMain:hover,
+.boxFileMain.selected .FileName {
   background-color: #f0f0f0;
 }
 
@@ -178,4 +179,48 @@ code {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.dropzone {
+  border: 2px dashed #0061ff;
+  padding: 30px;
+  border-radius: 5px;
+  text-align: center;
+  align-items: center;
+  display: flex;
+}
+.upload {
+  width: 70px;
+}
+.dropText {
+  margin: auto;
+}
+.dropText p {
+  margin: 0;
+  font-weight: 600;
+}
+.dropText span {
+  color: #c6bfbf;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.dropText Button {
+  background: #0061ff;
+  border: none;
+}
+.fileView {
+  background: #fff;
+  padding: 20px;
+  display: flex;
+  margin: 20px 0px;
+  border-radius: 10px;
+}
+.fileView h4 {
+  margin: 0;
+}
+.fileView ul {
+  list-style: none;
+  margin: 0;
+  align-self: center;
+  color: #0061ff;
 }
