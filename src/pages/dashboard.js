@@ -11,7 +11,7 @@ import pdf from "../assets/images/pdf.png";
 import sheets from "../assets/images/sheets.png";
 // import word from "../assets/images/word.png";
 import img from "../assets/images/img.png";
-
+import { BsTrash } from "react-icons/bs";
 export const Dashboard = () => {
   const [filesData, setFilesData] = useState([]);
 
@@ -84,7 +84,10 @@ export const Dashboard = () => {
                 <input type="checkbox" className="checkAll" />
                 <p className="m-0">Select All</p>
               </div>
-              <p className="m-0">Delet All</p>
+              <div className="d-flex selectAll m-0">
+                <BsTrash size={18} style={{alignSelf:"center", marginRight: '10px'}} />
+                <p className="m-0">Delete All</p>
+              </div>
             </div>
           </div>
           {filesData.map((file, index) => {
