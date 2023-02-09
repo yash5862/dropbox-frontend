@@ -62,6 +62,7 @@ code {
   margin-bottom: 20px;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  border: 1px solid transparent;
 }
 .boxFileMain p {
   font-size: 16px;
@@ -81,9 +82,14 @@ code {
   position: relative;
   background-color: #fff;
 }
-.boxFileMain:hover .FileName {
+.boxFileMain:hover, .boxFileMain.selected .FileName {
   background-color: #f0f0f0;
 }
+
+.boxFileMain.selected {
+  border: 1px solid #0061ff;
+}
+
 .FileName p {
   margin: 0;
   align-self: center;
@@ -163,6 +169,13 @@ code {
 .boxFileMain:hover .check {
   display: block;
 }
+.boxFileMain.selected .check {
+  display: block;
+}
 .selectAll {
   margin-right: 20px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }

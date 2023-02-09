@@ -42,7 +42,7 @@ export function apiClient({
         if(isToast) toast.success(res?.data?.message,option)
       })
       .catch((err) => {
-        if (err.response && err.response.data.message) {
+        if (err.response) {
           reject(err.response);
           if (err.response.data.statusCode === 401) {
             localStorage.removeItem("token");

@@ -15,7 +15,7 @@ const AppRoutes = () => {
   return (
         <Routes>
           {/* AUTH_ROUTE */}
-          <Route index element={<Navigate to="/login" />} />
+          <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<AuthRoute Component={Login} />} />      
           <Route path="/signup" element={<AuthRoute Component={Signup} />} />
 

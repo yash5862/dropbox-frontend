@@ -1,47 +1,17 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Button } from "react-bootstrap";
 import "../index.css";
 import { apiClient } from "../common/general";
 import { AppSettings } from "../appSettings";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
-import other from "../assets/images/other.png";
-import docs from "../assets/images/google-docs.png";
-import pdf from "../assets/images/pdf.png";
-import sheets from "../assets/images/sheets.png";
-// import word from "../assets/images/word.png";
-import img from "../assets/images/img.png";
+import { FileGrid } from "../components/fileGrid";
 import { BsTrash } from "react-icons/bs";
+import { Button, Modal } from "react-bootstrap";
+import { DropZoneComponent } from "../components/dropzone";
+
 export const Dashboard = () => {
   const [filesData, setFilesData] = useState([]);
-
-  const fileTypes = {
-    word: {
-      mimes: [
-        "application/msword",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      ],
-      image: docs,
-    },
-    image: {
-      mimes: ["image/gif", "image/jpeg", "image/png"],
-      image: img,
-    },
-    pdf: {
-      mimes: ["application/pdf"],
-      image: pdf,
-    },
-    excel: {
-      mimes: [
-        "application/vnd.ms-excel",
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      ],
-      image: sheets,
-    },
-    other: {
-      image: other,
-    },
-  };
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const getUserFiles = () => {
     apiClient({
@@ -49,6 +19,7 @@ export const Dashboard = () => {
       method: "GET",
     }).then((res) => {
       setFilesData(res.data);
+      resetStates();
     });
   };
 
@@ -57,21 +28,49 @@ export const Dashboard = () => {
     getUserFiles();
   }, []);
 
-  const getFileIconByMime = useMemo(
-    () => (mime) => {
-      console.log("Object.keys[fileTypes]", Object.keys(fileTypes));
-      const fileType =
-        Object.keys(fileTypes).find((type) => {
-          if (type == "other") return "";
-          return fileTypes[type].mimes.includes(mime);
-        }) || "other";
+  const onSelectFile = (id) => {
+    const selectedFilesInstance = [...selectedFiles];
+    const selectionIndex = selectedFilesInstance.indexOf(id);
+    if (selectionIndex > -1) {
+      selectedFilesInstance.splice(selectionIndex, 1);
+    } else {
+      selectedFilesInstance.push(id);
+    }
+    console.log("setting selectedfile", selectedFilesInstance);
+    setSelectedFiles([...selectedFilesInstance]);
+  };
 
-      return fileTypes[fileType]?.image || "";
-    },
-    [filesData]
-  );
+  const selectAllToggle = () => {
+    if (selectAll) {
+      setSelectedFiles([]);
+      setSelectAll(false);
+    } else {
+      setSelectedFiles(filesData.map((file) => file._id));
+      setSelectAll(!selectAll);
+    }
+  };
 
-  console.log(filesData);
+  const deleteFiles = () => {
+    apiClient({
+      url: AppSettings.apiBaseURL + "files",
+      method: "DELETE",
+      data: { ids: selectedFiles }
+    }).then((res) => {
+      getUserFiles();
+      setShowConfirm(false);
+    });
+  }
+
+  const resetStates = () => {
+    setSelectedFiles([]);
+    setSelectAll(false);
+  }
+
+  const handleClose = () => {
+    setShowConfirm(false);
+  }
+
+  console.log(selectedFiles);
 
   return (
     <>
@@ -81,52 +80,60 @@ export const Dashboard = () => {
           <div className="col-12 ">
             <div className="d-flex justify-content-end mb-3">
               <div className="d-flex selectAll">
-                <input type="checkbox" className="checkAll" />
+                <input
+                  type="checkbox"
+                  className="checkAll"
+                  onChange={selectAllToggle}
+                  disabled={!filesData.length}
+                  checked={
+                    filesData.length && (selectedFiles.length == filesData.length) ? true : selectAll
+                  }
+                />
                 <p className="m-0">Select All</p>
               </div>
-              <div className="d-flex selectAll m-0">
-                <BsTrash size={18} style={{alignSelf:"center", marginRight: '10px'}} />
-                <p className="m-0">Delete All</p>
-              </div>
+              {selectAll || selectedFiles.length ? (
+                <div className="d-flex selectAll m-0 cursor-pointer" onClick={() => setShowConfirm(true)}>
+                  <BsTrash
+                    size={18}
+                    style={{ alignSelf: "center", marginRight: "10px" }}
+                  />
+                  <p className="m-0">Delete</p>
+                </div>
+              ) : null}
             </div>
           </div>
-          {filesData.map((file, index) => {
+          {filesData && filesData.length ? filesData.map((file) => {
             return (
-              <div className="col-xl-2 col-lg-2 col-md-4 col-sm-2 col-12">
-                <div className="boxFileMain">
-                  <input type="checkbox" className="check" />
-                  <div className="boxFile">
-                    <img
-                      src={getFileIconByMime(file.mime)}
-                      className="img-fluid thumbnail"
-                    ></img>
-                  </div>
-                  <div className="FileName d-flex">
-                    <img
-                      src={getFileIconByMime(file.mime)}
-                      className="icon"
-                      tooltip={file.originalName}
-                    ></img>
-                    <OverlayTrigger
-                      placement="bottom"
-                      overlay={
-                        <Tooltip
-                          id="tooltip-bottom"
-                          style={{ position: "fixed" }}
-                        >
-                          {file.originalName}
-                        </Tooltip>
-                      }
-                    >
-                      <p>{file.originalName}</p>
-                    </OverlayTrigger>
-                  </div>
-                </div>
+              <div className="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                <FileGrid
+                  file={file}
+                  onSelect={onSelectFile}
+                  isSelected={
+                    selectAll ? true : selectedFiles.indexOf(file._id) > -1
+                  }
+                />
               </div>
             );
-          })}
+          }) : <div className="text-center">
+            No Files uploaded! Please upload
+          </div>}
         </div>
       </div>
+
+      <Modal show={showConfirm} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Files</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete {selectedFiles.length} files? !! Action is not reversible !!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={deleteFiles}>
+            Yes, Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
