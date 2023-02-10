@@ -17,7 +17,6 @@ export const Signup = () => {
       isAuth: false,
       isToast: true
     }).then((res) => {
-      console.log('res', res);
       localStorage.setItem('token', res.data.token);
       navigate("/");
     }).then(err => {

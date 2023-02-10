@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import "../index.css";
 import { apiClient } from "../common/general";
 import { AppSettings } from "../appSettings";
@@ -7,7 +7,6 @@ import { BsTrash } from "react-icons/bs";
 import { Button, Modal } from "react-bootstrap";
 import { useDropzone } from "react-dropzone";
 import upload from "../assets/images/upload.png";
-import { Link } from "react-router-dom";
 
 export const Dashboard = () => {
   const [filesData, setFilesData] = useState([]);
@@ -26,7 +25,6 @@ export const Dashboard = () => {
   };
 
   useEffect(() => {
-    console.log("called");
     getUserFiles();
   }, []);
 
@@ -38,7 +36,6 @@ export const Dashboard = () => {
     } else {
       selectedFilesInstance.push(id);
     }
-    console.log("setting selectedfile", selectedFilesInstance);
     setSelectedFiles([...selectedFilesInstance]);
   };
 
@@ -72,11 +69,27 @@ export const Dashboard = () => {
     setShowConfirm(false);
   };
 
-  console.log(selectedFiles);
-  const { getRootProps, acceptedFiles } = useDropzone();
+  const onDrop = useCallback(acceptedFiles => {
+    const data = new FormData();
+    acceptedFiles?.forEach(element => {
+      data.append('files', element);
+    });
+    apiClient({
+      url: AppSettings.apiBaseURL + "files",
+      method: "POST",
+      data,
+    }).then((res) => {
+      const allFilesData = filesData.concat(res.data);
+      setFilesData(allFilesData)
+    }).catch((errr) => {
+    });
+  }, [filesData])
+
+  const { getRootProps, acceptedFiles, } = useDropzone({onDrop});
   const files = acceptedFiles.map((file) => (
     <li key={file.path}>{file.path}</li>
   ));
+
   return (
     <>
       <div className="dashbordBody">
